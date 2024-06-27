@@ -4,6 +4,12 @@ from bankomat_functions import *
 
 # Funktioner
 
+def update_balance(): # Funktion som uppdaterar saldot.
+    balance = 0
+    with open("transaktioner.txt", "r") as file: # Lägger til värdet från varje rad i transaktioner.txt till balance.
+        for line in file:
+            balance += int(line)
+    return balance
 
 def validate_deposit():
     """
@@ -67,7 +73,6 @@ def uttag_open():
     button1.config(font=("timesnewroman", 45))
     button1.grid()
 
-
 def insattning_open():
     """
     Fönster för insättning
@@ -97,7 +102,6 @@ def insattning_open():
     button2.config(font=("timesnewroman", 45))
     button2.grid()
 
-
 def transactions_open():
     """
     Öppnar ett fönster och visar sparade transaktioner
@@ -111,6 +115,11 @@ def transactions_open():
     transactions_label.config(font=("timesnewroman", 50))
     transactions_label.grid(row=2, padx=600, pady=40)
 
+    with open("transaktioner.txt", "r") as file: # Lägger till en label för varje transaktion i transaktioner.txt.
+        for line in file:
+            transactions_label = Label(transactions, text=line)
+            transactions_label.config(font=("timesnewroman", 35))
+            transactions_label.grid()
 
 root = Tk()
 
@@ -133,7 +142,7 @@ logo.grid(row=0, padx=650)
 logo2 = Label(root, text="Välkommen")
 logo2.config(font=("timesnewroman", 45))
 logo2.grid()
-balance = Label(root, text=balance())  # Denna variabel ska visa saldot man har kvar på kontot (tekniskt fel)
+balance = Label(root, text=update_balance())  # Denna variabel ska visa saldot man har kvar på kontot (tekniskt fel) ### FIXAT ###
 balance.config(font=("timesnewroman", 55))
 balance.grid(row=6, pady=80)
 
